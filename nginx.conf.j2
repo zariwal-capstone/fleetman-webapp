@@ -22,7 +22,7 @@ http {
         {% if SPRING_PROFILES_ACTIVE == 'local-microservice' %}
            proxy_pass          https://docs.docker.com/;
         {% else %}
-           proxy_pass          https://docs.docker.com1/;
+           proxy_pass          https://docs.docker.com/;
         {% endif %}
 
         proxy_read_timeout  90;
