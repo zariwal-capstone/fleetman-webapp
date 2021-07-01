@@ -26,7 +26,7 @@ pipeline {
 
       stage('Build and Push Image') {
          steps {
-           bat 'docker image build -t env.REPOSITORY_TAG .'
+           bat 'docker image build -t fleetman-webapp .'
          }
       }
 
