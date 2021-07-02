@@ -5,9 +5,9 @@ pipeline {
      // You must set the following environment variables
      // ORGANIZATION_NAME
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
-     
+
      SERVICE_NAME = "fleetman-webapp"
-     REPOSITORY_TAG="fleetman-webapp"
+     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
    }
 
    stages {
@@ -19,20 +19,19 @@ pipeline {
       }
       stage('Build') {
          steps {
-             bat 'echo No build required for Webapp.'
-             
+            sh 'echo No build required for Webapp.'
          }
       }
 
       stage('Build and Push Image') {
          steps {
-           bat 'docker image build -t fleetman-webapp .'
+           sh 'docker image build -t ${REPOSITORY_TAG} .'
          }
       }
 
       stage('Deploy to Cluster') {
           steps {
-            bat 'kubectl apply -f deploy.yaml'
+            sh 'envsubst < ${WORKSPACE}/deploy.yaml | kubectl apply -f -'
           }
       }
    }
