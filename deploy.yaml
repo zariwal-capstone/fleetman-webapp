@@ -17,7 +17,7 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
-        image: index.docker.io/v1/${REGISTRY}
+        image: docker.io/${REGISTRY}:$BUILD_NUMBER
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
