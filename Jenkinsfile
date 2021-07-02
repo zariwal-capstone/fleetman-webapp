@@ -5,10 +5,10 @@ pipeline {
      // You must set the following environment variables
      // ORGANIZATION_NAME
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
-
+     REGISTRY = "zariwal/capstone"
      SERVICE_NAME = "fleetman-webapp"
      REPOSITORY_TAG = "${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
-     DockerHub = 'DockerHub'
+     DOCKERHUB = 'DockerHub'
    }
 
    stages {
@@ -27,12 +27,25 @@ pipeline {
       stage('Build and Push Image') {
          steps {
            sh 'docker image build -t ${REPOSITORY_TAG} .'
-           script {
-                  docker.withRegistry( '', DockerHub ) {
-                  dockerImage.push()
-                               }
-                  }
          }
+      }
+
+      stage('Building our docker image') {
+         steps {
+             script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+             }
+         }
+      }
+
+      stage('Push our image dockerhub') {
+            steps {
+                script {
+                    docker.withRegistry( '', DOCKERHUB ) {
+                        dockerImage.push()
+                    }
+                }
+            }
       }
 
       stage('Deploy to Cluster') {
