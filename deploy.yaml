@@ -18,7 +18,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
         image: ${REGISTRY}
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         readinessProbe:
           httpGet:
             path: /
