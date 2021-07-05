@@ -31,15 +31,18 @@ pipeline {
             }
       }
 
-      stage('SonarQube analysis') {
-                tool {
-                SonarScanner 'SonarScanner';
-                }
-                steps {
-                withSonarQubeEnv('SonarQube') {
-                          sh "${scannerHome}/bin/sonar-scanner"
-                }
-                }
+      stage('Sonarqube Analysis') {
+          environment {
+              scannerHome = tool 'SonarScanner'
+          }
+          steps {
+              withSonarQubeEnv('SonarQube') {
+                  sh "${scannerHome}/bin/sonar-scanner"
+              }
+              timeout(time: 10, unit: 'MINUTES') {
+                  waitForQualityGate abortPipeline: true
+              }
+          }
       }
       stage("Quality gate") {
             steps {
