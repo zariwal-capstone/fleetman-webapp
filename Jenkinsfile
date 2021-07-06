@@ -9,6 +9,7 @@ pipeline {
      SERVICE_NAME = "fleetman-webapp"
      REPOSITORY_TAG = "${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
      DOCKERHUB = 'DockerHub'
+     PROJECT_NAME = 'fleetman-webapp'
    }
 
    stages {
@@ -37,7 +38,7 @@ pipeline {
           }
           steps {
               withSonarQubeEnv('SonarQube') {
-                  sh "${scannerHome}/bin/sonar-scanner -Dsonar.userHome=`pwd`/.sonar -X"
+                  sh "${scannerHome}/bin/sonar-scanner -Dsonar.userHome=`pwd`/.sonar -Dsonar.projectKey=$PROJECT_NAME -X"
               }
               timeout(time: 10, unit: 'MINUTES') {
                   waitForQualityGate abortPipeline: true
