@@ -40,9 +40,9 @@ pipeline {
               withSonarQubeEnv('SonarQube') {
                   sh "${scannerHome}/bin/sonar-scanner -Dsonar.userHome=`pwd`/.sonar -Dsonar.projectKey=$PROJECT_NAME -X"
               }
-              timeout(time: 10, unit: 'MINUTES') {
+/*               timeout(time: 10, unit: 'MINUTES') {
                   waitForQualityGate abortPipeline: true
-              }
+              } */
           }
       }
 /*       stage("Quality gate") {
