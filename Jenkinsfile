@@ -88,7 +88,7 @@ pipeline {
       }
 	  stage ("Dynamic Analysis - DAST with OWASP ZAP") {
 			steps {
-				sh "docker run --network host -t owasp/zap2docker-stable zap-baseline.py -t http://127.0.0.1:50071/ || true"
+				sh "docker run --network host -t owasp/zap2docker-stable zap-baseline.py -t http://http://kubernetes.docker.internal:50071/ || true"
 			}
 
 	  }
