@@ -86,5 +86,11 @@ pipeline {
             sh 'envsubst < ${WORKSPACE}/deploy.yaml | kubectl apply -f -'
           }
       }
+	  stage ("Dynamic Analysis - DAST with OWASP ZAP") {
+			steps {
+				sh "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://127.0.0.1:50071/ || true"
+			}
+
+	  }
    }
 }
